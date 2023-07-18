@@ -1,0 +1,8 @@
+{
+  "header": {
+    "index": "Home",
+    "login": "Login",
+    "error": "Error",
+    "undefined": "Error"
+  }
+}
