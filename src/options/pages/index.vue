@@ -1,24 +1,26 @@
 <template>
-  <div class="text-center m-4">
-    <h1 class="text-3xl font-bold underline pb-6">Hello world from Options!</h1>
-
-    <RouterLink to="/about">About</RouterLink>
+  <div class="flex justify-center items-center h-screen">
+    <img v-if="imgUrl" class="" :src="imgUrl" />
+    <div v-else>Pas d'image</div>
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const imgUrl = ref(null);
 
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
-</style>
+const getImg = () => {
+  chrome.storage.local.get("imgUrl", (result) => {
+    imgUrl.value = result.imgUrl;
+  });
+};
+
+onMounted(() => {
+  getImg();
+
+  chrome.storage.onChanged.addListener(function () {
+    return getImg();
+  });
+});
+</script>
+
+<style scoped></style>

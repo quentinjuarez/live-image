@@ -1,8 +1,8 @@
-console.log("hello world from background");
+console.log("Service worker is running");
 
 chrome.contextMenus.create({
   id: "image_menu",
-  title: "Afficher l'image dans une nouvelle fenêtre",
+  title: "Envoyer l'image",
   contexts: ["image"],
 });
 

@@ -16,7 +16,7 @@ export default defineConfig({
     vue(),
     crx({ manifest }),
     AutoImport({
-      imports: ["vue", "vue-router", "vue-i18n"],
+      imports: ["vue", "vue-router"],
       dts: "src/auto-imports.d.ts",
       dirs: ["src/composables/", "src/popup/store/"],
     }),

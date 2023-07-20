@@ -1,10 +1,10 @@
 import { createApp } from "vue";
-import { createRouter, createWebHashHistory } from "vue-router";
+import { createRouter, createMemoryHistory } from "vue-router";
 import App from "./app.vue";
 import "./main.css";
 
 const router = createRouter({
-  history: createWebHashHistory(import.meta.env.BASE_URL),
+  history: createMemoryHistory(import.meta.env.BASE_URL),
   routes: [
     {
       name: "index",
@@ -13,9 +13,5 @@ const router = createRouter({
     },
   ],
 });
-
-// router.beforeEach((to) => {
-//   if (to.path === "/") return "/options";
-// });
 
 createApp(App).use(router).mount("#app");

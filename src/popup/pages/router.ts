@@ -6,19 +6,30 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach((to, _from, next) => {
-  // if (to.name === "login") return next();
+router.beforeEach(async (to, _from, next) => {
+  if (to.name === "login") return next();
 
-  // const isAuthenticated = false;
-  // if (!isAuthenticated) {
-  //   const { fullPath } = to;
-  //   let redirection = "";
+  const store = useStore();
 
-  //   if (fullPath && fullPath !== "/") {
-  //     redirection = `?next=${encodeURI(fullPath)}`;
-  //   }
-  //   next(`/login${redirection}`);
-  // }
+  if (!store.storeLoaded) {
+    try {
+      await store.init();
+    } catch (error) {
+      console.error("Failed to load store data:", error);
+      return next("/error");
+    }
+  }
+
+  const isAuthenticated = !!store.accessToken;
+  if (!isAuthenticated) {
+    const { fullPath } = to;
+    let redirection = "";
+
+    if (fullPath && fullPath !== "/") {
+      redirection = `?next=${encodeURI(fullPath)}`;
+    }
+    next(`/login${redirection}`);
+  }
 
   next();
 });

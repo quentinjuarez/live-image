@@ -12,7 +12,6 @@ const routes = [
     name: "index",
     path: "/",
     component: index,
-    meta: { authorize: "LoggedIn" },
   },
   {
     path: "/:catchAll(.*)",

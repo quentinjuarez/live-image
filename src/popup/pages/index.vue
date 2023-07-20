@@ -1,26 +1,18 @@
 <template>
-  <div class="flex justify-center items-center h-full">
-    <img v-if="imgUrl" class="h-full" :src="imgUrl" />
+  <div class="flex justify-center items-center h-full" @click="handleLogout">
+    <img v-if="store.imgUrl" class="h-full" :src="store.imgUrl" />
     <div v-else>Pas d'image</div>
   </div>
 </template>
 
 <script setup lang="ts">
-const imgUrl = ref(null);
+const store = useStore();
+const router = useRouter();
 
-const getImg = () => {
-  chrome.storage.local.get("imgUrl", (result) => {
-    imgUrl.value = result.imgUrl;
-  });
+const handleLogout = () => {
+  store.logout();
+  router.push("/login");
 };
-
-onMounted(() => {
-  getImg();
-
-  chrome.storage.onChanged.addListener(function () {
-    return getImg();
-  });
-});
 </script>
 
 <style scoped></style>
