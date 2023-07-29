@@ -1,12 +1,14 @@
 import theme from "tailwindcss/defaultTheme";
-import { generateConfig } from "tailwindcss-custom-colors";
-
-const extendedColors = generateConfig(["primary"]);
+import {
+  generateConfig,
+  generateConfigWithColors,
+} from "tailwindcss-custom-colors";
 
 export const COLORS = {
-  ...theme.colors,
-  primary: extendedColors,
+  ...generateConfig(["primary"]),
+  ...generateConfigWithColors([{ color: "#FF0000", name: "red" }]),
 };
+
 export const EXTENDED_SPACING = {
   4.5: "18px",
   5.5: "22px",

@@ -11,12 +11,12 @@ import {
 module.exports = {
   content: ["./src/**/*.{index,vue,js,ts,jsx,tsx}"],
   theme: {
-    colors: COLORS,
     borderRadius: toPxTheme("borderRadius"),
     lineHeight: toPxTheme("lineHeight"),
     maxWidth: toPxTheme("maxWidth"),
     fontSize: FONT_SIZES,
     extend: {
+      colors: COLORS,
       spacing: { ...SPACING, ...EXTENDED_SPACING },
       fontFamily: {
         custom: [

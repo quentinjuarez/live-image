@@ -1,7 +1,7 @@
 import { createApp } from "vue";
 
 import App from "./app.vue";
-import "./main.css";
+import "./popup.css";
 import { createPinia } from "pinia";
 import router from "./pages/router";
 

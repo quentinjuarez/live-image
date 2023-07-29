@@ -2080,7 +2080,7 @@ __metadata:
     pinia: ^2.1.4
     postcss: ^8.4.26
     tailwindcss: ^3.3.3
-    tailwindcss-custom-colors: ^1.0.3
+    tailwindcss-custom-colors: ^1.0.7
     typescript: ^5.0.2
     unplugin-auto-import: ^0.16.6
     vite: ^4.4.0
@@ -3050,10 +3050,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tailwindcss-custom-colors@npm:^1.0.3":
-  version: 1.0.3
-  resolution: "tailwindcss-custom-colors@npm:1.0.3"
-  checksum: fbc0dfb5ad3809c37e77509b543be38566d251a3038cfa544380ecdcc370137f7e99331987fdcb194ef261c169a7529c549967f485edc08fdec0032badb1bc25
+"tailwindcss-custom-colors@npm:^1.0.7":
+  version: 1.0.7
+  resolution: "tailwindcss-custom-colors@npm:1.0.7"
+  checksum: 688ec029bb3e5f3ec60fc87e9a1508a6267f649f204344dc05746b607d40554fe44161a1ee85702cacba5d171f74eecdc00dd687bc2df04ba112ba03b9329e08
   languageName: node
   linkType: hard
 
