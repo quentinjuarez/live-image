@@ -3,45 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <title>Overlay</title>
-    <style>
-      body {
-        margin: 0;
-        overflow: hidden;
-        background: transparent;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-      }
-
-      #img {
-        max-width: 50%;
-        opacity: 0;
-        transition: opacity 0.5s ease;
-      }
-
-      #img.visible {
-        opacity: 1;
-      }
-    </style>
   </head>
   <body>
-    <img id="img" />
-
-    <script>
-      const wsPort = Number("{{WS_PORT}}") || 3334;
-      const ws = new WebSocket(`ws://localhost:${wsPort}`);
-
-      const img = document.getElementById("img");
-
-      ws.onmessage = (ev) => {
-        const data = JSON.parse(ev.data);
-        img.src = data.image;
-        img.classList.add("visible");
-
-        // Hide after 5s
-        setTimeout(() => img.classList.remove("visible"), 5000);
-      };
-    </script>
+    <div id="app"></div>
+    <script type="module" src="./src/main.ts"></script>
   </body>
 </html>

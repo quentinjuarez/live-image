@@ -1,14 +1,19 @@
 {
   "name": "live-image",
   "packageManager": "yarn@3.8.6",
+  "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "yarn dev:server",
+    "dev": "concurrently \"yarn dev:overlay\" \"yarn dev:server\"",
+    "dev:overlay": "yarn workspace overlay dev",
     "dev:server": "yarn workspace server dev"
   },
   "workspaces": [
     "./extension",
     "./overlay",
     "./server"
-  ]
+  ],
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
 }

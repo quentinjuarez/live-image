@@ -12,7 +12,6 @@ app.use(cors());
 app.use(express.json({ limit: "10mb" }));
 app.use(morgan("tiny"));
 
-// --- WEBSOCKET SERVER ---
 const wss = new WebSocketServer({ port: WS_PORT });
 console.log("WS Server running on ws://localhost:" + WS_PORT);
 
@@ -21,7 +20,6 @@ function broadcast(data) {
   wss.clients.forEach((client) => client.send(msg));
 }
 
-// --- API HTTP ---
 app.post("/send", (req, res) => {
   const { image } = req.body;
 

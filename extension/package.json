@@ -1,5 +1,7 @@
 {
   "name": "extension",
   "packageManager": "yarn@3.8.6",
+  "version": "0.0.0",
+  "license": "MIT",
   "private": true
 }
