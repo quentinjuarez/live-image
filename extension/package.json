@@ -1,0 +1,5 @@
+{
+  "name": "extension",
+  "packageManager": "yarn@3.8.6",
+  "private": true
+}

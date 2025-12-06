@@ -1,0 +1,14 @@
+{
+  "name": "live-image",
+  "packageManager": "yarn@3.8.6",
+  "private": true,
+  "scripts": {
+    "dev": "yarn dev:server",
+    "dev:server": "yarn workspace server dev"
+  },
+  "workspaces": [
+    "./extension",
+    "./overlay",
+    "./server"
+  ]
+}
