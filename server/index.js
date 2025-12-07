@@ -46,6 +46,10 @@ function broadcast(roomId, data) {
   }
 }
 
+app.get("/", (req, res) => {
+  res.send("Live Image Server is running");
+});
+
 app.post("/send", (req, res) => {
   const { image, roomId } = req.body;
 
