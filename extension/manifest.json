@@ -2,8 +2,11 @@
   "manifest_version": 3,
   "name": "Stream Image Sender",
   "version": "1.0",
-  "permissions": ["contextMenus", "scripting", "storage"],
+  "permissions": ["contextMenus", "scripting", "storage", "notifications"],
   "background": {
     "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "dist/popup/index.html"
   }
 }

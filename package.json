@@ -4,6 +4,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "dev": "concurrently \"yarn dev:overlay\" \"yarn dev:server\" \"yarn dev:extension\"",
+    "dev:extension": "yarn workspace extension dev",
     "dev:overlay": "yarn workspace overlay dev",
     "dev:server": "yarn workspace server dev"
   },
@@ -13,9 +15,7 @@
     "./server"
   ],
   "devDependencies": {
-    "typescript": "^5.9.3"
-  },
-  "resolutions": {
+    "concurrently": "^9.2.1",
     "typescript": "^5.9.3"
   }
 }

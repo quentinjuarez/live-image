@@ -6,7 +6,7 @@
 import { ref } from "vue";
 
 const url = new URL(window.location.href);
-const roomId = url.searchParams.get("id");
+const roomId = url.searchParams.get("code");
 
 if (!roomId) {
   // You could display an error message to the user
