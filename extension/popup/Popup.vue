@@ -37,7 +37,8 @@ onMounted(() => {
 });
 
 const url = computed(() => {
-  return roomId.value ? `http://localhost:8080/?code=${roomId.value}` : "";
+  const frontUrl = import.meta.env.VITE_FRONT_URL;
+  return roomId.value ? `${frontUrl}/?code=${roomId.value}` : "";
 });
 
 const handleCreate = () => {

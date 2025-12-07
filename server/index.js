@@ -4,8 +4,8 @@ const cors = require("cors");
 const morgan = require("morgan");
 const { WebSocketServer } = require("ws");
 
-const SERVER_PORT = process.env.SERVER_PORT || 3333;
-const WS_PORT = process.env.WS_PORT || 3334;
+const SERVER_PORT = 3333;
+const WS_PORT = 3334;
 
 const app = express();
 app.use(cors());

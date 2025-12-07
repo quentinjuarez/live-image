@@ -13,7 +13,7 @@ if (!roomId) {
   console.error("Room ID is missing from the URL");
 }
 
-const wsUrl = new URL(import.meta.env.VITE_WS_URL || "ws://localhost:3334");
+const wsUrl = new URL(import.meta.env.VITE_WS_URL);
 wsUrl.searchParams.set("id", roomId!);
 const ws = new WebSocket(wsUrl);
 
