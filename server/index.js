@@ -2,18 +2,19 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
+const http = require("http");
 const { WebSocketServer } = require("ws");
 
-const SERVER_PORT = 3333;
-const WS_PORT = 3334;
+const PORT = process.env.PORT || 3333;
 
 const app = express();
 app.use(cors());
 app.use(express.json({ limit: "10mb" }));
 app.use(morgan("tiny"));
 
-const wss = new WebSocketServer({ port: WS_PORT });
-console.log("WS Server running on ws://localhost:" + WS_PORT);
+const server = http.createServer(app);
+
+const wss = new WebSocketServer({ server });
 
 const rooms = new Map();
 
@@ -28,6 +29,7 @@ wss.on("connection", (ws, req) => {
     rooms.set(roomId, new Set());
   }
   rooms.get(roomId).add(ws);
+
   ws.on("close", () => {
     rooms.get(roomId)?.delete(ws);
     if (rooms.get(roomId)?.size === 0) {
@@ -58,6 +60,6 @@ app.post("/send", (req, res) => {
   return res.send({ ok: true });
 });
 
-app.listen(SERVER_PORT, () =>
-  console.log("HTTP server running on http://localhost:" + SERVER_PORT)
-);
+server.listen(PORT, () => {
+  console.log(`HTTP + WS server running on http://localhost:${PORT}`);
+});
