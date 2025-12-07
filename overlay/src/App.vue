@@ -4,7 +4,18 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-const ws = new WebSocket(import.meta.env.VITE_WS_URL || "ws://localhost:3334");
+
+const url = new URL(window.location.href);
+const roomId = url.searchParams.get("code");
+
+if (!roomId) {
+  // You could display an error message to the user
+  console.error("Room ID is missing from the URL");
+}
+
+const wsUrl = new URL(import.meta.env.VITE_WS_URL);
+wsUrl.searchParams.set("id", roomId!);
+const ws = new WebSocket(wsUrl);
 
 const imgRef = ref<HTMLImageElement>();
 

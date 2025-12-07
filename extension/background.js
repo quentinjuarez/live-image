@@ -6,14 +6,24 @@ chrome.runtime.onInstalled.addListener(() => {
   });
 });
 
-chrome.contextMenus.onClicked.addListener((info) => {
-  if (info.menuItemId !== "sendToStream") return;
+chrome.contextMenus.onClicked.addListener(async (info) => {
+  if (info.menuItemId === "sendToStream") {
+    const { roomId } = await chrome.storage.local.get("roomId");
 
-  const imageUrl = info.srcUrl;
+    if (!roomId) {
+      chrome.windows.create({
+        url: chrome.runtime.getURL("dist/popup/index.html"),
+        type: "popup",
+        width: 400,
+        height: 300,
+      });
+      return;
+    }
 
-  fetch("http://localhost:3333/send", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ image: imageUrl }),
-  });
+    fetch("http://localhost:3333/send", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ image: info.srcUrl, roomId }),
+    });
+  }
 });
