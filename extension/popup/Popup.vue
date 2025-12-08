@@ -1,5 +1,5 @@
 <template>
-  <div v-if="roomId" class="flex gap-2">
+  <div v-if="code" class="flex gap-2">
     <input
       :value="url"
       type="password"
@@ -28,23 +28,23 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from "vue";
 
-const roomId = ref<string>();
+const code = ref<string>();
 
 onMounted(() => {
-  chrome.storage.local.get("roomId", (result) => {
-    roomId.value = result.roomId as string | undefined;
+  chrome.storage.local.get("code", (result) => {
+    code.value = result.code as string | undefined;
   });
 });
 
 const url = computed(() => {
   const frontUrl = import.meta.env.VITE_FRONT_URL;
-  return roomId.value ? `${frontUrl}/?code=${roomId.value}` : "";
+  return code.value ? `${frontUrl}/?code=${code.value}` : "";
 });
 
 const handleCreate = () => {
   const value = crypto.randomUUID();
-  chrome.storage.local.set({ roomId: value });
-  roomId.value = value;
+  chrome.storage.local.set({ code: value });
+  code.value = value;
 };
 
 const copy = ref(false);

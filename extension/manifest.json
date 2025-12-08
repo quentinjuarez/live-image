@@ -1,12 +1,20 @@
 {
   "manifest_version": 3,
-  "name": "Stream Image Sender",
+  "name": "Live Image",
   "version": "1.0",
-  "permissions": ["contextMenus", "scripting", "storage"],
+  "permissions": ["contextMenus", "scripting", "storage", "https://x.com"],
   "background": {
     "service_worker": "background.js"
   },
   "action": {
     "default_popup": "dist/popup/index.html"
-  }
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://x.com/*"],
+      "js": ["contentScript.js"],
+      "run_at": "document_end"
+    }
+  ],
+  "host_permissions": ["https://x.com/*"]
 }

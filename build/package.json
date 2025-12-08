@@ -1,0 +1,13 @@
+{
+  "name": "build",
+  "version": "0.0.0",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "build": "node build-zip.js",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "archiver": "^7.0.1"
+  }
+}
