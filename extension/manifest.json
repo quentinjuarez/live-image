@@ -1,7 +1,10 @@
 {
   "manifest_version": 3,
-  "name": "Live Image",
-  "version": "1.0",
+  "name": "Live Image - X/Twitter to Stream Overlay",
+  "short_name": "Live Image",
+  "version": "1.0.0",
+  "description": "Affichez instantanément des images et tweets X/Twitter dans votre overlay de stream en un clic !",
+  "author": "Quentin Juarez",
   "permissions": ["contextMenus", "scripting", "storage"],
   "background": {
     "service_worker": "background.js"

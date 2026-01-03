@@ -24,6 +24,7 @@ const modifiedManifest = manifestContent.replace(devUrl, prodUrl);
 
 // add manifest.json, background.js, dist/ from ./
 archive.directory("./dist/", "dist");
+archive.directory("./icons/", "icons");
 archive.append(modifiedManifest, { name: "manifest.json" });
 archive.file("./background.js", { name: "background.js" });
 
