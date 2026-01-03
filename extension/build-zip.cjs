@@ -1,8 +1,10 @@
 const fs = require("fs");
 const archiver = require("archiver");
 
-const devUrl = "http://localhost:3333";
-const prodUrl = "https://live-image-server.onrender.com";
+const devServerUrl = "http://localhost:3333";
+const prodServerUrl = "https://live-image-server.onrender.com";
+const devFrontUrl = "http://localhost:5173";
+const prodFrontUrl = "https://live-image-overlay.vercel.app";
 
 const output = fs.createWriteStream("extension.zip");
 const archive = archiver("zip", { zlib: { level: 9 } });

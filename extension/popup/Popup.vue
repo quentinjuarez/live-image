@@ -1,23 +1,26 @@
 <template>
   <div class="p-4 min-w-[300px]">
     <div v-if="code" class="flex flex-col gap-4">
-      <div class="flex gap-2">
-        <input
-          :value="url"
-          type="password"
-          class="p-1 border border-gray-300 bg-white rounded flex-1"
-        />
-        <button
-          @click="handleCopy"
-          class="bg-blue-500 hover:bg-blue-600 py-1 px-2 rounded text-white pointer"
-        >
-          <span v-if="copy">Copié!</span>
-          <span v-else>Copier le lien</span>
-        </button>
+      <div>
+        <h3 class="font-semibold mb-3 text-lg">Lien Source Navigateur</h3>
+        <div class="flex gap-2">
+          <input
+            :value="url"
+            type="password"
+            class="p-1 border border-gray-300 bg-white rounded flex-1"
+          />
+          <button
+            @click="handleCopy"
+            class="bg-blue-500 hover:bg-blue-600 py-1 px-2 rounded text-white pointer"
+          >
+            <span v-if="copy">Copié!</span>
+            <span v-else>Copier le lien</span>
+          </button>
+        </div>
       </div>
 
-      <div class="border-t pt-4 border-gray-500">
-        <h3 class="font-semibold mb-3">Paramètres</h3>
+      <div class="border-t pt-4 border-gray-300">
+        <h3 class="font-semibold mb-3 text-lg">Paramètres</h3>
 
         <div class="mb-4">
           <label class="block mb-2 text-sm">
@@ -53,7 +56,8 @@
         </div>
       </div>
 
-      <div class="border-t pt-4 border-gray-500">
+      <div class="border-t pt-4 border-gray-300">
+        <h3 class="font-semibold mb-3 text-lg">Arrêter le partage</h3>
         <button
           @click="handleStop"
           class="bg-blue-500 hover:bg-blue-600 py-1 px-2 rounded text-white pointer"
@@ -95,8 +99,7 @@ onMounted(() => {
 });
 
 const url = computed(() => {
-  const frontUrl = import.meta.env.VITE_FRONT_URL;
-  return code.value ? `${frontUrl}/?code=${code.value}` : "";
+  return code.value ? `http://localhost:5173/?code=${code.value}` : "";
 });
 
 const handleCreate = () => {
