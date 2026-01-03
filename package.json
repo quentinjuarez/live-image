@@ -6,12 +6,14 @@
     "dev": "concurrently \"yarn dev:overlay\" \"yarn dev:server\" \"yarn dev:extension\"",
     "dev:extension": "yarn workspace extension dev",
     "dev:overlay": "yarn workspace overlay dev",
-    "dev:server": "yarn workspace server dev"
+    "dev:server": "yarn workspace server dev",
+    "build": "yarn workspace extension build"
   },
   "workspaces": [
     "./extension",
     "./overlay",
-    "./server"
+    "./server",
+    "./build"
   ],
   "devDependencies": {
     "concurrently": "^9.2.1",

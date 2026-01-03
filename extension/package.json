@@ -6,8 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite build --watch --mode development",
-    "build": "vue-tsc -b && vite build && node build-zip.js",
-    "preview": "vite preview"
+    "build": "vue-tsc -b && vite build && node build-zip.cjs"
   },
   "dependencies": {
     "archiver": "^7.0.1",
