@@ -167,7 +167,7 @@ const connectWebSocket = () => {
 
     if (!data.url) {
       isVisible.value = false;
-    } else if (data.url.includes("status")) {
+    } else if (data.url.includes("x.com")) {
       showContent("tweet", data.url, data.settings);
     } else {
       showContent("image", data.url, data.settings);
@@ -193,7 +193,7 @@ onMounted(() => {
 });
 
 type Settings = {
-  hideTime?: number; // in seconds
+  displayDuration?: number; // in seconds
   width?: number; // in percentage of viewport width
 };
 
@@ -210,11 +210,11 @@ function showContent(
   width.value = settings.width ?? 80;
 
   clearTimeout(hideTimer);
-  if (settings.hideTime === 0) return;
+  if (settings.displayDuration === 0) return;
 
   hideTimer = window.setTimeout(() => {
     isVisible.value = false;
-  }, (settings.hideTime ?? 5) * 1000);
+  }, (settings.displayDuration ?? 5) * 1000);
 }
 
 const displayUrl = computed(

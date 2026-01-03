@@ -6,7 +6,7 @@ chrome.runtime.onInstalled.addListener(() => {
   });
 });
 
-const sendToStream = async (url) => {
+const sendToStream = async (url, pageUrl) => {
   const { code } = await chrome.storage.local.get("code");
 
   if (!code) {
@@ -24,19 +24,27 @@ const sendToStream = async (url) => {
   fetch("http://localhost:3333/send", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ url, code, settings: settings || {} }),
+    body: JSON.stringify({
+      url,
+      code,
+      settings: settings || {
+        displayDuration: 5,
+        width: 80,
+      },
+      meta: { pageUrl },
+    }),
   });
 };
 
 chrome.contextMenus.onClicked.addListener(async (info) => {
   if (info.menuItemId === "sendToStream") {
-    sendToStream(info.srcUrl);
+    sendToStream(info.srcUrl, info.pageUrl);
   }
 });
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   console.log("Background received message:", request);
   if (request.action === "tweet" || request.action === "stop") {
-    sendToStream(request.url);
+    sendToStream(request.url, request.pageUrl);
   }
 });

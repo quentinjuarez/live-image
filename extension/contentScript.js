@@ -57,6 +57,7 @@ console.log("[LIVE-IMAGE] contentScript loaded");
       chrome.runtime.sendMessage({
         action: "tweet",
         url: tweetUrl,
+        pageUrl: window.location.href,
       });
     };
 

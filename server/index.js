@@ -4,6 +4,10 @@ const cors = require("cors");
 const morgan = require("morgan");
 const http = require("http");
 const { WebSocketServer } = require("ws");
+const connectDB = require("./config/db");
+const Event = require("./models/Event");
+
+connectDB();
 
 const PORT = process.env.PORT || 3333;
 
@@ -50,14 +54,21 @@ app.get("/", (req, res) => {
   res.send("Live Image Server is running");
 });
 
-app.post("/send", (req, res) => {
-  const { url, code, settings } = req.body;
+app.post("/send", async (req, res) => {
+  const { url, code, settings, meta } = req.body;
 
-  // if (!url) {
-  //   return res.status(400).send({ error: "Missing url" });
-  // }
+  if (url === undefined || url === null) {
+    return res.status(400).send({ error: "Missing url" });
+  }
   if (!code) {
     return res.status(400).send({ error: "Missing code" });
+  }
+
+  // Save event to database
+  try {
+    await Event.create({ code, url, settings, meta });
+  } catch (error) {
+    console.error("Error saving event to database:", error);
   }
 
   broadcast(code, { url, settings });

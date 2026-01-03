@@ -37,11 +37,13 @@
           <label class="block mb-2 text-sm">
             Temps d'affichage:
             <span class="font-semibold">{{
-              settings.hideTime ? settings.hideTime + "s" : "Infini"
+              settings.displayDuration
+                ? settings.displayDuration + "s"
+                : "Infini"
             }}</span>
           </label>
           <input
-            v-model.number="settings.hideTime"
+            v-model.number="settings.displayDuration"
             @input="saveSettings"
             type="range"
             min="0"
@@ -82,7 +84,7 @@ const code = ref<string>();
 
 const settings = reactive({
   width: 80,
-  hideTime: 5,
+  displayDuration: 5,
 });
 
 onMounted(() => {
