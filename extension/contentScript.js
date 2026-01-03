@@ -1,5 +1,102 @@
 console.log("[LIVE-IMAGE] contentScript loaded");
 
+// Right click position
+let lastClickedElement = null;
+
+document.addEventListener(
+  "contextmenu",
+  (e) => {
+    lastClickedElement = e.target;
+  },
+  true
+);
+
+function findClosestImage(element) {
+  if (!element) return null;
+
+  let currentElement = element;
+  const maxDepth = 10;
+  let depth = 0;
+
+  while (currentElement && depth < maxDepth) {
+    // img
+    if (currentElement.tagName === "IMG" && currentElement.src) {
+      return {
+        type: "img",
+        url: currentElement.src,
+        element: currentElement,
+      };
+    }
+
+    // background-image
+    const computedStyle = window.getComputedStyle(currentElement);
+    const bgImage = computedStyle.backgroundImage;
+
+    if (bgImage && bgImage !== "none") {
+      const urlMatch = bgImage.match(/url\(['"]?(.*?)['"]?\)/);
+      if (urlMatch && urlMatch[1]) {
+        return {
+          type: "background",
+          url: urlMatch[1],
+          element: currentElement,
+        };
+      }
+    }
+
+    // child img
+    const imgChild = currentElement.querySelector("img[src]");
+    if (imgChild && imgChild.src) {
+      return {
+        type: "img",
+        url: imgChild.src,
+        element: imgChild,
+      };
+    }
+
+    // child with background-image
+    const childWithBg = Array.from(currentElement.children).find((child) => {
+      const style = window.getComputedStyle(child);
+      return style.backgroundImage && style.backgroundImage !== "none";
+    });
+
+    if (childWithBg) {
+      const style = window.getComputedStyle(childWithBg);
+      const urlMatch = style.backgroundImage.match(/url\(['"]?(.*?)['"]?\)/);
+      if (urlMatch && urlMatch[1]) {
+        return {
+          type: "background",
+          url: urlMatch[1],
+          element: childWithBg,
+        };
+      }
+    }
+
+    currentElement = currentElement.parentElement;
+    depth++;
+  }
+
+  return null;
+}
+
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  if (request.action === "findClosestImage") {
+    const result = findClosestImage(lastClickedElement);
+
+    if (result) {
+      console.log(`[LIVE-IMAGE] Image trouvée (${result.type}):`, result.url);
+
+      chrome.runtime.sendMessage({
+        action: "send",
+        url: result.url,
+        pageUrl: window.location.href,
+      });
+    } else {
+      console.log("[LIVE-IMAGE] Aucune image trouvée");
+      alert("Aucune image ou background trouvé à proximité de cet élément.");
+    }
+  }
+});
+
 (function () {
   const BTN_CLASS = "live-image-btn";
 
@@ -55,7 +152,7 @@ console.log("[LIVE-IMAGE] contentScript loaded");
         ? "https://x.com" + linkEl.getAttribute("href")
         : null;
       chrome.runtime.sendMessage({
-        action: "tweet",
+        action: "send",
         url: tweetUrl,
         pageUrl: window.location.href,
       });

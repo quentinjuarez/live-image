@@ -4,6 +4,12 @@ chrome.runtime.onInstalled.addListener(() => {
     title: "Afficher dans le stream",
     contexts: ["image"],
   });
+
+  // chrome.contextMenus.create({
+  //   id: "sendToStream-beta",
+  //   title: "Afficher dans le stream (beta)",
+  //   contexts: ["all"],
+  // });
 });
 
 const sendToStream = async (url, pageUrl) => {
@@ -36,15 +42,19 @@ const sendToStream = async (url, pageUrl) => {
   });
 };
 
-chrome.contextMenus.onClicked.addListener(async (info) => {
+chrome.contextMenus.onClicked.addListener(async (info, tab, test) => {
   if (info.menuItemId === "sendToStream") {
     sendToStream(info.srcUrl, info.pageUrl);
+  } else if (info.menuItemId === "sendToStream-beta") {
+    chrome.tabs.sendMessage(tab.id, {
+      action: "findClosestImage",
+    });
   }
 });
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   console.log("Background received message:", request);
-  if (request.action === "tweet" || request.action === "stop") {
+  if (request.action === "send" || request.action === "stop") {
     sendToStream(request.url, request.pageUrl);
   }
 });
