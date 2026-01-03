@@ -138,24 +138,54 @@ const code = computed(() => {
   return validateCode(location.searchParams.get("code"));
 });
 
-onMounted(() => {
+let ws: WebSocket | null = null;
+let reconnectTimer: number | undefined;
+
+const connectWebSocket = () => {
+  if (!code.value) return;
+
   const wsUrl = new URL(import.meta.env.VITE_WS_URL);
   wsUrl.searchParams.set("code", code.value);
-  const ws = code.value ? new WebSocket(wsUrl) : null;
 
-  if (ws) {
-    ws.onmessage = (ev) => {
-      const data = JSON.parse(ev.data);
+  ws = new WebSocket(wsUrl);
 
-      if (!data.url) {
-        isVisible.value = false;
-      } else if (data.url.includes("status")) {
-        showContent("tweet", data.url, data.settings);
-      } else {
-        showContent("image", data.url, data.settings);
-      }
-    };
-  }
+  ws.onopen = () => {
+    console.log("WebSocket connected");
+    // Clear any pending reconnect timer
+    if (reconnectTimer) {
+      clearTimeout(reconnectTimer);
+      reconnectTimer = undefined;
+    }
+  };
+
+  ws.onmessage = (ev) => {
+    const data = JSON.parse(ev.data);
+
+    if (!data.url) {
+      isVisible.value = false;
+    } else if (data.url.includes("status")) {
+      showContent("tweet", data.url, data.settings);
+    } else {
+      showContent("image", data.url, data.settings);
+    }
+  };
+
+  ws.onerror = (error) => {
+    console.error("WebSocket error:", error);
+  };
+
+  ws.onclose = () => {
+    console.log("WebSocket closed, reconnecting in 5 seconds...");
+    ws = null;
+    // Retry connection after 5 seconds
+    reconnectTimer = window.setTimeout(() => {
+      connectWebSocket();
+    }, 5000);
+  };
+};
+
+onMounted(() => {
+  connectWebSocket();
 });
 
 type Settings = {
