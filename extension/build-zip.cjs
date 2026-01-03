@@ -22,12 +22,13 @@ archive.pipe(output);
 // Read and modify manifest.json
 const manifestPath = "./manifest.json";
 const manifestContent = fs.readFileSync(manifestPath, "utf-8");
-const modifiedManifest = manifestContent.replace(devUrl, prodUrl);
+const modifiedManifest = manifestContent.replace(devServerUrl, prodServerUrl);
 
 // add manifest.json, background.js, dist/ from ./
 archive.directory("./dist/", "dist");
 archive.directory("./icons/", "icons");
 archive.append(modifiedManifest, { name: "manifest.json" });
 archive.file("./background.js", { name: "background.js" });
+archive.file("./contentScript.js", { name: "contentScript.js" });
 
 archive.finalize();

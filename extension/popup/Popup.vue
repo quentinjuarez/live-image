@@ -99,7 +99,7 @@ onMounted(() => {
 });
 
 const url = computed(() => {
-  return code.value ? `http://localhost:5173/?code=${code.value}` : "";
+  return code.value ? `${process.env.FRONT_URL}/?code=${code.value}` : "";
 });
 
 const handleCreate = () => {
