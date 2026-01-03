@@ -51,16 +51,16 @@ app.get("/", (req, res) => {
 });
 
 app.post("/send", (req, res) => {
-  const { url, code } = req.body;
+  const { url, code, settings } = req.body;
 
-  if (!url) {
-    return res.status(400).send({ error: "Missing url" });
-  }
+  // if (!url) {
+  //   return res.status(400).send({ error: "Missing url" });
+  // }
   if (!code) {
     return res.status(400).send({ error: "Missing code" });
   }
 
-  broadcast(code, { url });
+  broadcast(code, { url, settings });
   return res.send({ ok: true });
 });
 

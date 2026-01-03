@@ -1,7 +1,7 @@
 console.log("[LIVE-IMAGE] contentScript loaded");
 
 (function () {
-  const BTN_CLASS = "my-injected-btn";
+  const BTN_CLASS = "live-image-btn";
 
   function createButton(article) {
     const btn = document.createElement("button");

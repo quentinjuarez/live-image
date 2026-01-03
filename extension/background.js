@@ -19,10 +19,12 @@ const sendToStream = async (url) => {
     return;
   }
 
+  const { settings } = await chrome.storage.local.get("settings");
+
   fetch("http://localhost:3333/send", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ url, code }),
+    body: JSON.stringify({ url, code, settings: settings || {} }),
   });
 };
 
@@ -34,7 +36,7 @@ chrome.contextMenus.onClicked.addListener(async (info) => {
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   console.log("Background received message:", request);
-  if (request.action === "tweet") {
+  if (request.action === "tweet" || request.action === "stop") {
     sendToStream(request.url);
   }
 });

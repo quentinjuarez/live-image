@@ -1,25 +1,36 @@
 <template>
-  <div class="flex justify-center items-center h-screen w-screen">
-    <img v-if="type === 'image'" ref="imgRef" class="w-[80vw] h-[80vh]" />
-    <VueTweet
-      v-else
-      :tweet-url="url"
-      class="w-[80vw] h-[80vh] *:flex justify-center items-center"
-    />
+  <div
+    class="flex justify-center items-center h-screen w-screen"
+    :style="{ '--width': width + '%' }"
+  >
+    <Transition name="fade">
+      <img v-if="isVisible && type === 'image'" :src="url" class="content" />
+
+      <VueTweet
+        v-else-if="isVisible && type === 'tweet'"
+        :tweet-url="url"
+        class="content tweet"
+      />
+    </Transition>
   </div>
 </template>
 
 <script setup lang="ts">
-import VueTweet from "vue-tweet";
 import { ref } from "vue";
+import VueTweet from "vue-tweet";
+
+type ContentType = "image" | "tweet";
+
+const type = ref<ContentType>("image");
+const url = ref("");
+const isVisible = ref(false);
+
+let hideTimer: number | undefined;
 
 const location = new URL(window.location.href);
 const code = location.searchParams.get("code");
-const type = ref<"tweet" | "image">("image");
-const url = ref<string>("");
 
 if (!code) {
-  // You could display an error message to the user
   console.error("Room ID is missing from the URL");
 }
 
@@ -27,35 +38,66 @@ const wsUrl = new URL(import.meta.env.VITE_WS_URL);
 wsUrl.searchParams.set("code", code!);
 const ws = new WebSocket(wsUrl);
 
-const imgRef = ref<HTMLImageElement>();
+type Settings = {
+  hideTime?: number; // in seconds
+  width?: number; // in percentage of viewport width
+};
+
+const width = ref(80);
+
+function showContent(
+  newType: ContentType,
+  newUrl: string,
+  settings: Settings = {}
+) {
+  type.value = newType;
+  url.value = newUrl;
+  isVisible.value = true;
+  width.value = settings.width ?? 80;
+
+  clearTimeout(hideTimer);
+  if (settings.hideTime === 0) return;
+
+  hideTimer = window.setTimeout(() => {
+    isVisible.value = false;
+  }, (settings.hideTime ?? 5) * 1000);
+}
 
 ws.onmessage = (ev) => {
-  if (!imgRef.value) return;
   const data = JSON.parse(ev.data);
-  if (data.url.includes("status")) {
-    type.value = "tweet";
-    url.value = data.url;
-    return;
+
+  if (!data.url) {
+    isVisible.value = false;
+  } else if (data.url.includes("status")) {
+    showContent("tweet", data.url, data.settings);
+  } else {
+    showContent("image", data.url, data.settings);
   }
-
-  type.value = "image";
-  url.value = data.url;
-  imgRef.value.src = data.url;
-  imgRef.value.classList.add("visible");
-
-  // Hide after 5s
-  setTimeout(() => imgRef.value?.classList.remove("visible"), 5000);
 };
 </script>
 
 <style scoped>
-img {
-  max-width: 50%;
-  opacity: 0;
+.content {
+  width: var(--width);
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Optional tweet tweaks */
+.tweet {
+  overflow: auto;
+}
+
+/* Fade transition */
+.fade-enter-active,
+.fade-leave-active {
   transition: opacity 0.5s ease;
 }
 
-img.visible {
-  opacity: 1;
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>
