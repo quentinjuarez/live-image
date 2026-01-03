@@ -55,7 +55,7 @@
                 />
                 <button
                   @click="handleCopy"
-                  class="bg-blue-500 hover:bg-blue-600 py-1 px-2 rounded text-white pointer"
+                  class="bg-blue-500 hover:bg-blue-600 py-1 px-2 rounded text-white cursor-pointer transition-colors"
                 >
                   <span v-if="copy">Copié!</span>
                   <span v-else>Copier le lien</span>

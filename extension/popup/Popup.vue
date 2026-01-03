@@ -1,17 +1,13 @@
 <template>
-  <div class="p-4 min-w-[300px]">
-    <div v-if="code" class="flex flex-col gap-4">
+  <div class="p-4 min-w-75">
+    <h1 class="text-2xl font-bold mb-4 block">Live Image</h1>
+    <section v-if="code" class="flex flex-col gap-4">
       <div>
         <h3 class="font-semibold mb-3 text-lg">Lien Source Navigateur</h3>
         <div class="flex gap-2">
-          <input
-            :value="url"
-            type="password"
-            class="p-1 border border-gray-300 bg-white rounded flex-1"
-          />
           <button
             @click="handleCopy"
-            class="bg-blue-500 hover:bg-blue-600 py-1 px-2 rounded text-white pointer"
+            class="bg-violet-500 hover:bg-violet-600 py-3 px-5 rounded-lg text-white cursor-pointer transition-colors"
           >
             <span v-if="copy">Copié!</span>
             <span v-else>Copier le lien</span>
@@ -19,7 +15,7 @@
         </div>
       </div>
 
-      <div class="border-t pt-4 border-gray-300">
+      <div>
         <h3 class="font-semibold mb-3 text-lg">Paramètres</h3>
 
         <div class="mb-4">
@@ -33,7 +29,7 @@
             min="10"
             max="100"
             step="10"
-            class="w-full"
+            class="w-full accent-violet-500"
           />
         </div>
 
@@ -51,31 +47,31 @@
             min="0"
             max="10"
             step="1"
-            class="w-full"
+            class="w-full accent-violet-500"
           />
         </div>
       </div>
 
-      <div class="border-t pt-4 border-gray-300">
-        <h3 class="font-semibold mb-3 text-lg">Arrêter le partage</h3>
+      <div>
+        <h3 class="font-semibold mb-3 text-lg">Arrêter le partage en cours</h3>
         <button
           @click="handleStop"
-          class="bg-blue-500 hover:bg-blue-600 py-1 px-2 rounded text-white pointer"
+          class="bg-violet-500 hover:bg-violet-600 py-3 px-5 rounded-lg text-white cursor-pointer transition-colors"
         >
           Stop
         </button>
       </div>
-    </div>
-    <div v-else>
-      <div class="mb-3">Pas d'accès encore configuré</div>
+    </section>
+    <section v-else>
+      <h3 class="font-semibold mb-3 text-lg">Pas d'accès encore configuré</h3>
 
       <button
         @click="handleCreate"
-        class="bg-blue-500 hover:bg-blue-600 py-1 px-2 rounded text-white pointer"
+        class="bg-violet-500 hover:bg-violet-600 py-3 px-5 rounded-lg text-white cursor-pointer transition-colors"
       >
-        Créer un code
+        Commencer
       </button>
-    </div>
+    </section>
   </div>
 </template>
 
