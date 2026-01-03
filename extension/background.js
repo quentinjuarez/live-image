@@ -1,3 +1,5 @@
+const DEV_MODE = false;
+
 chrome.runtime.onInstalled.addListener(() => {
   chrome.contextMenus.create({
     id: "sendToStream",
@@ -5,11 +7,13 @@ chrome.runtime.onInstalled.addListener(() => {
     contexts: ["image"],
   });
 
-  // chrome.contextMenus.create({
-  //   id: "sendToStream-beta",
-  //   title: "Afficher dans le stream (beta)",
-  //   contexts: ["all"],
-  // });
+  if (DEV_MODE) {
+    chrome.contextMenus.create({
+      id: "sendToStream-beta",
+      title: "Afficher dans le stream (beta)",
+      contexts: ["all"],
+    });
+  }
 });
 
 const sendToStream = async (url, pageUrl) => {
