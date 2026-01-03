@@ -27,7 +27,7 @@
             v-model.number="settings.width"
             @input="saveSettings"
             type="range"
-            min="50"
+            min="10"
             max="100"
             step="10"
             class="w-full"

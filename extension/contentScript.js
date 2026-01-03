@@ -5,8 +5,16 @@ console.log("[LIVE-IMAGE] contentScript loaded");
 
   function createButton(article) {
     const btn = document.createElement("button");
-    btn.textContent = "+";
+
+    const svgCode = `
+<svg viewBox="0 0 311 326" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M22 0L0 56V284H78V326H122L163 284H226L311 199V0H22ZM282 185L234 233H156L114 275V233H49V29H282V185Z" fill="currentColor"/>
+<path d="M49.5 234L116 100L171.5 184.5L225.5 117L284 184.5" stroke="currentColor" stroke-width="20"/>
+</svg>`;
     btn.className = BTN_CLASS;
+
+    btn.title = "View Live Image";
+    btn.innerHTML = svgCode;
 
     btn.style.padding = "0";
     btn.style.width = "35px";
@@ -16,11 +24,19 @@ console.log("[LIVE-IMAGE] contentScript loaded");
     btn.style.color = "rgb(113, 118, 123)";
     btn.style.cursor = "pointer";
     btn.style.border = "none";
-    btn.style.fontSize = "16px";
     btn.style.display = "flex";
     btn.style.alignItems = "center";
     btn.style.justifyContent = "center";
     btn.style.transition = "all 0.2s ease-in-out";
+
+    // Style the SVG
+    const svg = btn.querySelector("svg");
+    if (svg) {
+      svg.style.width = "20px";
+      svg.style.height = "20px";
+      svg.style.transition = "all 0.2s ease-in-out";
+    }
+
     // hover style
     btn.onmouseover = () => {
       btn.style.background = "rgba(29, 155, 240, 0.1)";

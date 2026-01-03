@@ -4,12 +4,16 @@
     :style="{ '--width': width + '%' }"
   >
     <Transition name="fade">
-      <img v-if="isVisible && type === 'image'" :src="url" class="content" />
+      <img
+        v-if="isVisible && type === 'image'"
+        :src="url"
+        class="content-image"
+      />
 
       <VueTweet
         v-else-if="isVisible && type === 'tweet'"
         :tweet-url="url"
-        class="content tweet"
+        class="content-tweet"
       />
     </Transition>
   </div>
@@ -76,18 +80,21 @@ ws.onmessage = (ev) => {
 };
 </script>
 
-<style scoped>
-.content {
+<style>
+.content-image {
   width: var(--width);
+  max-height: 100vh;
   height: auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  object-fit: contain;
 }
 
-/* Optional tweet tweaks */
-.tweet {
+.content-tweet {
+  max-height: 100vh;
   overflow: auto;
+}
+
+iframe {
+  width: 550px !important;
 }
 
 /* Fade transition */
