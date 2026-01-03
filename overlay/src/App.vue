@@ -5,10 +5,10 @@
   >
     <!-- Show download instructions if no code -->
     <div
-      v-if="!code || !isOBS"
+      v-if="!code || (!dev && !isOBS)"
       class="w-full h-full bg-linear-to-br from-[#667eea] to-[#764ba2] flex justify-center items-center p-8"
     >
-      <div class="bg-white rounded-2xl p-12 max-w-[800px] shadow-2xl">
+      <div class="bg-white rounded-2xl p-12 max-w-200 shadow-2xl">
         <h1 class="text-4xl m-0 mb-2 text-[#667eea]">Extension Live Image</h1>
         <p class="text-xl text-gray-600 m-0 mb-8">
           Affichez du contenu X/Twitter dans votre overlay de stream
@@ -136,6 +136,10 @@ const validateCode = (code?: string | null): string => {
 
 const code = computed(() => {
   return validateCode(location.searchParams.get("code"));
+});
+
+const dev = computed(() => {
+  return location.searchParams.get("mode") === "dev";
 });
 
 let ws: WebSocket | null = null;

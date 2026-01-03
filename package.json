@@ -12,8 +12,7 @@
   "workspaces": [
     "./extension",
     "./overlay",
-    "./server",
-    "./build"
+    "./server"
   ],
   "devDependencies": {
     "concurrently": "^9.2.1",
